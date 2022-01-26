@@ -12,7 +12,7 @@ PrimeSieve is a Java program that calculates the prime numbers from 1 to 10^8, a
 4. Look at primes.txt for output
 
 ## Evaluation
-The core of the algorithm is the use of a modified Sieve of Eratosthenes. Starting at 3, the algorithm marks off all multiples of a prime. To make use of multithreading, for each prime the remaining array from prime p to n=10^8 is divided into 8 blocks and each spawned thread performs an incremental sieve on each block. When it finishes the sieve operation, it iterates up until the next unmarked number and repeats.
+The core of the algorithm is the use of a modified Sieve of Eratosthenes. Starting at 3, the algorithm marks off all multiples of a prime. To make use of multithreading, for each prime the remaining array from prime p to n=10^8 is divided into 8 blocks and each spawned thread performs an incremental sieve on each block. When it finishes the sieve operation, it iterates up until the next unmarked number and repeats. "Jobs" are created for each thread and put in a BlockingQueue by the master thread for the threads to pick up. The master thread uses a semaphore to wait for other threads to finish executing.
 
 ### Optimizations Sieve until sqrt(n)
 The sieving halts once reaching sqrt(n) because if a number less than or equal to sqrt(n) has been sieved up, it is guaranteed to be sieved greater than sqrt(n).
