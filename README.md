@@ -18,8 +18,20 @@ The core of the algorithm is the use of a modified Sieve of Eratosthenes. Starti
 The sieving halts once reaching sqrt(n) because if a number less than or equal to sqrt(n) has been sieved up, it is guaranteed to be sieved greater than sqrt(n).
 
 ### Optimization: Sieve Table 
-The Java BitSet structure was used to store whether an index was a prime hit. It was chosen because despite slightly slower lookup times, it only takes n/8 bytes of memory. Additionally, because no even number is prime, the table only needs n/2 bits. This is a major space improvement considering the immensity of n. 
+The Java BitSet structure was used to store whether an index was a prime hit. It was chosen because despite slightly slower lookup times, it only takes n/8 bytes of memory. Additionally, because no even number is prime, the table only needs n/2 bits. In total, the sieve table needs roughly 6.25 MB. This is a major space improvement considering the immensity of n.
 
 ### Possible improvements
 There are situations where a thread is waiting idle during a sieve because its block has no primes within the range. There may be some way to occupy this thread during this time to prevent idleness. Such a time improvement would be minimal because this situation only arises for large prime numbers that are fast to sieve.
 
+### Tests
+
+Tests were run on an Intel i5-8250U CPU
+| Test      | Run time (seconds) |
+| ----------- | ----------- |
+| 1      | 0.924160900        |
+| 2   | 0.846270900         |
+| 3   | 0.898138200         |
+| 4   | 0.970100300         |
+| 5   | 0.905682300       |
+
+Average: 0.908870520 sec
