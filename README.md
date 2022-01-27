@@ -18,10 +18,10 @@ The core of the algorithm is the use of a modified Sieve of Eratosthenes. Starti
 The sieving halts once reaching sqrt(n) because if a number less than or equal to sqrt(n) has been sieved up, it is guaranteed to be sieved greater than sqrt(n).
 
 ### Optimization: Sieve Table 
-The Java BitSet structure was used to store whether an index was a prime hit. It was chosen because despite slightly slower lookup times, it only takes n/8 bytes of memory. Additionally, because no even number is prime, the table only needs n/2 bits. In total, the sieve table needs roughly 6.25 MB. This is a major space improvement considering the immensity of n.
+The Java BitSet structure was used to store whether an index was a prime hit. It was chosen because despite slightly slower lookup times, it only takes n/8 bytes of memory. Additionally, because no even number is prime, the table only needs n/2 bits. This is a major space improvement considering the immensity of n. In total, the sieve table needs roughly 6.25 MB
 
 ### Possible improvements
-There are situations where a thread is waiting idle during a sieve because its block has no primes within the range. There may be some way to occupy this thread during this time to prevent idleness. Such a time improvement would be minimal because this situation only arises for large prime numbers that are fast to sieve.
+There are situations where a thread is waiting idle during a sieve because its block has no primes within the range, or when it finishes its computation faster than others. There may be some way to occupy these threads during this time to prevent idleness. Beginning the sieve of the next prime is a reasonable option, but finding the next prime to sieve depends on the completion of the sieve, so there is no apparent way to occupy the waiting threads. Such a time improvement would be minimal anyway because if a prime number is large enough to avoid falling within a block, there is at most one of each multiple of the prime within every block. And if a thread finishes its computations faster, it only has to wait a small amount of time becasuse the workloads are balanced close to evenly on average.
 
 ### Tests
 
